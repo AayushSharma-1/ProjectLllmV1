@@ -3,17 +3,11 @@ from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 import pinecone
 from llama_index.core import (
     VectorStoreIndex,
-    SimpleDirectoryReader,
-    StorageContext,
-    get_response_synthesizer,
     Settings
 )
 from llama_index.llms.gemini import Gemini
 from pinecone import Pinecone, ServerlessSpec
 import os
-from llama_index.core.retrievers import VectorIndexRetriever
-from llama_index.core.query_engine import RetrieverQueryEngine
-from llama_index.core.postprocessor import SimilarityPostprocessor
 from llama_index.core.memory import ChatMemoryBuffer
 
 GOOGLE_API_KEY = "AIzaSyCMAvB0-ehycivbI10OaaqY9WNXUe20U7U"
@@ -38,9 +32,10 @@ chat_engine = index.as_chat_engine(
     You will use Hum instead of main. Your name is Lallan. 
     The full form of Lallan is 'Lucknow Artificial Language and Learning Assistance Network'. 
     Call only Janab-e-Alaa instead of phrase My dear Friend. 
-    Say Salaam Miya! instead of Greetings. """
-    ),
+    Say Salaam Miya! instead of Greetings. 
+    If you do not find the context suitable then do not hallucinate the answer You can Answer the Question on you own our you can Just Say You dont know!!
+    if you enconuter question which ask about you like hello, Hii or a normal conversation you can simply talk then there's no need to answer from the context"""
+    ),verbose = True
 )
-
 response = chat_engine.chat(input("Enter Query"))
 print(response)
